@@ -2,6 +2,7 @@ import { loadJsonFile, saveJsonFile } from './utils.js';
 import { config } from './config.js';
 
 const STATS_FILE = 'usage-stats.json';
+const LOG_FILE = 'processing-log.json';
 
 const CHIRP_FEMALE_VOICES = [
   'en-US-Chirp3-HD-Achernar',
@@ -19,6 +20,24 @@ const CHIRP_FEMALE_VOICES = [
   'en-US-Chirp3-HD-Vindemiatrix',
   'en-US-Chirp3-HD-Zephyr'
 ];
+
+/**
+ * Logs a detailed processing event for future analysis
+ * @param {Object} data - Event data (url, title, charCount, voice, etc.)
+ */
+export async function logProcessingEvent(data) {
+  const log = await loadJsonFile(LOG_FILE, { events: [] });
+  
+  log.events.push({
+    timestamp: new Date().toISOString(),
+    ...data,
+    region: 'europe-west2', // Current deployment region
+    metricsVersion: 1
+  });
+  
+  await saveJsonFile(LOG_FILE, log);
+  console.log(`Logged processing event for "${data.title}"`);
+}
 
 /**
  * Updates the usage statistics with new character counts
