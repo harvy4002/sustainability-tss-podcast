@@ -113,7 +113,7 @@ tts: {
 After changing the configuration, redeploy your application with:
 
 ```
-gcloud functions deploy rss-tts-podcast --gen2 --runtime nodejs20 --trigger-http --allow-unauthenticated --memory 1024MB --timeout 540s --source=. --entry-point=generatePodcast --region=us-central1 --set-env-vars="GCS_BUCKET_NAME=instapaper-podcasts,GOOGLE_CLOUD_PROJECT=rss-tss-podcast,USE_CLOUD_STORAGE=true"
+gcloud functions deploy sustainability-tss-podcast --gen2 --runtime nodejs20 --trigger-http --allow-unauthenticated --memory 1024MB --timeout 540s --source=. --entry-point=generatePodcast --region=europe-west2 --set-env-vars="GCS_BUCKET_NAME=sustainability-podcast-data,GOOGLE_CLOUD_PROJECT=hippo-ideas,USE_CLOUD_STORAGE=true"
 ```
 
 Then trigger the function to reprocess articles with the new voice.

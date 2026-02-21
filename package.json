@@ -1,7 +1,7 @@
 {
   "name": "sustainability-tss-podcast",
   "version": "1.0.0",
-  "description": "Converts Instapaper RSS articles to podcast episodes using Google Cloud TTS",
+  "description": "Converts web articles to podcast episodes using Google Cloud TTS",
   "main": "function.js",
   "type": "module",
   "scripts": {
@@ -15,8 +15,7 @@
     "rss",
     "podcast",
     "text-to-speech",
-    "google-cloud",
-    "instapaper"
+    "google-cloud"
   ],
   "author": "",
   "license": "MIT",
