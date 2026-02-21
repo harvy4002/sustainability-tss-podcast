@@ -46,6 +46,7 @@ export async function createLandingPage(episodes = [], usageStats = null) {
     const chirpLimit = 1000000; // 1 Million characters free
     const chirpUsed = usageStats.chirpChars || 0;
     const totalChars = usageStats.totalChars || 0;
+    const lifetimeChars = usageStats.lifetimeTotalChars || totalChars; // Use lifetime if available, else current month
     const chirpPercent = Math.min(100, (chirpUsed / chirpLimit) * 100);
     const chirpColor = chirpPercent > 90 ? '#ef4444' : (chirpPercent > 75 ? '#f59e0b' : '#10b981');
     
@@ -56,7 +57,7 @@ export async function createLandingPage(episodes = [], usageStats = null) {
     // UK Grid Intensity: ~200g CO2e/kWh
     const kwhPerMillionChars = 0.5;
     const gramsCo2PerKwh = 200;
-    const estimatedKwh = (totalChars / 1000000) * kwhPerMillionChars;
+    const estimatedKwh = (lifetimeChars / 1000000) * kwhPerMillionChars;
     const gramsCo2 = estimatedKwh * gramsCo2PerKwh;
     
     // Comparisons

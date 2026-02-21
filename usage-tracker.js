@@ -55,7 +55,12 @@ export async function trackUsage(charCount, voiceName) {
 
   await saveJsonFile(STATS_FILE, stats);
   
-  return stats.history[monthKey];
+  const lifetimeTotalChars = calculateLifetimeTotal(stats);
+  
+  return {
+    ...stats.history[monthKey],
+    lifetimeTotalChars
+  };
 }
 
 /**
@@ -66,11 +71,30 @@ export async function getCurrentMonthStats() {
   const today = new Date();
   const monthKey = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}`;
   
-  return stats.history[monthKey] || { 
+  const currentMonth = stats.history[monthKey] || { 
     chirpChars: 0, 
     totalChars: 0, 
     costEstimate: 0 
   };
+  
+  const lifetimeTotalChars = calculateLifetimeTotal(stats);
+  
+  return {
+    ...currentMonth,
+    lifetimeTotalChars
+  };
+}
+
+function calculateLifetimeTotal(stats) {
+  let total = 0;
+  if (stats && stats.history) {
+    for (const key in stats.history) {
+      if (stats.history[key].totalChars) {
+        total += stats.history[key].totalChars;
+      }
+    }
+  }
+  return total;
 }
 
 /**
