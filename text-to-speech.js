@@ -139,8 +139,8 @@ async function synthesizeSpeech(text, voiceConfig) {
 function splitTextIntoChunks(text, chunkSize) {
   if (text.length <= chunkSize) return [text];
   
-  // Use 70% of chunkSize to account for UTF-8 encoding
-  const safeChunkSize = Math.floor(chunkSize * 0.7);
+  // Use 80% of chunkSize to be safe
+  const safeChunkSize = Math.floor(chunkSize * 0.8);
   const chunks = [];
   let currentChunk = '';
   
@@ -148,69 +148,74 @@ function splitTextIntoChunks(text, chunkSize) {
   const paragraphs = text.split(/\n\s*\n/);
   
   for (const paragraph of paragraphs) {
-    // If paragraph exceeds chunk size, split by sentences
-    if (paragraph.length > safeChunkSize) {
-      const sentences = paragraph.split(/(?<=\.|\?|\!)\s+/);
-      
-      for (const sentence of sentences) {
-        // If sentence exceeds chunk size, split by commas or other breaks
-        if (sentence.length > safeChunkSize) {
-          const subParts = sentence.split(/(?<=,|;|:|\(|\))\s+/);
-          
-          for (const part of subParts) {
-            // If part is still too big, split by character count (Force split)
-            if (part.length > safeChunkSize) {
-              let remainingPart = part;
-              while (remainingPart.length > 0) {
-                // Use a slightly smaller chunk size for forced splits to be safe
-                const hardLimit = Math.floor(safeChunkSize * 0.9);
-                const chunkPart = remainingPart.substring(0, hardLimit);
-                
-                if ((currentChunk + chunkPart).length > safeChunkSize && currentChunk.length > 0) {
-                  chunks.push(currentChunk);
-                  currentChunk = chunkPart;
-                } else {
-                  currentChunk += (currentChunk ? ' ' : '') + chunkPart;
-                }
-                
-                remainingPart = remainingPart.substring(hardLimit);
-              }
-            } else {
-              // Add part to current chunk or start a new chunk
-              if ((currentChunk + part).length > safeChunkSize && currentChunk.length > 0) {
-                chunks.push(currentChunk);
-                currentChunk = part;
-              } else {
-                currentChunk += (currentChunk ? ' ' : '') + part;
-              }
-            }
-          }
-        } else {
-          // Add sentence to current chunk or start a new chunk
-          if ((currentChunk + sentence).length > safeChunkSize && currentChunk.length > 0) {
-            chunks.push(currentChunk);
-            currentChunk = sentence;
-          } else {
-            currentChunk += (currentChunk ? ' ' : '') + sentence;
-          }
-        }
+    if (!paragraph.trim()) continue;
+
+    // If paragraph fits, add it
+    if ((currentChunk + paragraph).length < safeChunkSize) {
+      currentChunk += (currentChunk ? '\n\n' : '') + paragraph;
+      continue;
+    }
+
+    // Process current chunk if full
+    if (currentChunk) {
+      chunks.push(currentChunk);
+      currentChunk = '';
+    }
+
+    // If paragraph is small enough for a new chunk, use it
+    if (paragraph.length <= safeChunkSize) {
+      currentChunk = paragraph;
+      continue;
+    }
+
+    // Paragraph too big, split by sentences
+    const sentences = paragraph.match(/[^.!?]+[.!?]+|[^.!?]+$/g) || [paragraph];
+    
+    for (const sentence of sentences) {
+      if ((currentChunk + sentence).length < safeChunkSize) {
+        currentChunk += (currentChunk ? ' ' : '') + sentence;
+        continue;
       }
-    } else {
-      // Add paragraph to current chunk or start a new chunk
-      if ((currentChunk + paragraph).length > safeChunkSize && currentChunk.length > 0) {
+
+      // Current chunk full
+      if (currentChunk) {
         chunks.push(currentChunk);
-        currentChunk = paragraph;
-      } else {
-        currentChunk += (currentChunk ? '\n\n' : '') + paragraph;
+        currentChunk = '';
+      }
+
+      // If sentence fits new chunk
+      if (sentence.length <= safeChunkSize) {
+        currentChunk = sentence;
+        continue;
+      }
+
+      // Sentence too big, hard split
+      let remaining = sentence;
+      while (remaining.length > 0) {
+        if (remaining.length <= safeChunkSize) {
+          currentChunk = remaining;
+          break;
+        }
+
+        // Find split point (last space within limit)
+        let splitIndex = remaining.lastIndexOf(' ', safeChunkSize);
+        if (splitIndex === -1) splitIndex = safeChunkSize; // No space, hard cut
+
+        let part = remaining.substring(0, splitIndex).trim();
+        
+        // Ensure it ends with punctuation if it's a forced split
+        if (!/[.!?]$/.test(part)) {
+          part += '.';
+        }
+
+        chunks.push(part);
+        remaining = remaining.substring(splitIndex).trim();
       }
     }
   }
   
-  // Add the last chunk if not empty
   if (currentChunk) chunks.push(currentChunk);
   
   console.log(`Split text into ${chunks.length} chunks (max size: ${safeChunkSize} chars)`);
-  chunks.forEach((chunk, i) => console.log(`Chunk ${i+1} length: ${chunk.length} characters`));
-  
   return chunks;
 }
