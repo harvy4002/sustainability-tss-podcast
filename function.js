@@ -12,6 +12,17 @@ import { trackUsage, getCurrentMonthStats, getOptimalVoice } from './usage-track
  * @param {Object} res - The HTTP response object
  */
 export async function generatePodcast(req, res) {
+  // Set CORS headers for preflight requests
+  res.set('Access-Control-Allow-Origin', '*');
+  res.set('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+  res.set('Access-Control-Allow-Headers', 'Content-Type');
+  
+  // Handle preflight request
+  if (req.method === 'OPTIONS') {
+    res.status(204).send('');
+    return;
+  }
+
   try {
     console.log('Sustainability TSS Podcast Generator Starting...');
     
