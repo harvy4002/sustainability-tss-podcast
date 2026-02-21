@@ -49,7 +49,7 @@ export const config = {
     description: process.env.PODCAST_DESCRIPTION || 'Articles on sustainability read aloud',
     author: process.env.PODCAST_AUTHOR || 'Sustainability TSS Podcast',
     siteUrl: process.env.PODCAST_SITE_URL || 'https://example.com',
-    imageUrl: process.env.PODCAST_IMAGE_URL || 'https://storage.googleapis.com/sustainability-podcast-data/logo.png',
+    imageUrl: process.env.PODCAST_IMAGE_URL || 'https://storage.googleapis.com/sustainability-podcast/logo.png',
     language: 'en',
     categories: ['Technology', 'News']
   },
