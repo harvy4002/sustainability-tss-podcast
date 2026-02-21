@@ -1,19 +1,19 @@
 import { config } from './config.js';
 import { saveToCloudStorage } from './cloud-storage.js';
+import fs from 'fs/promises';
+import path from 'path';
 
 /**
- * Creates a simple landing page in the Cloud Storage bucket
+ * Creates a simple landing page
  * @param {Array} episodes - List of podcast episodes to display
  * @param {Object} usageStats - Usage statistics for the current month
- * @returns {Promise<string>} URL of the landing page
+ * @returns {Promise<string>} URL or path of the landing page
  */
 export async function createLandingPage(episodes = [], usageStats = null) {
-  if (!config.cloud.useCloudStorage) {
-    console.log('Skipping landing page creation: not using cloud storage');
-    return null;
-  }
-  
-  const feedUrl = `https://storage.googleapis.com/${config.cloud.bucketName}/feed.xml`;
+  const feedUrl = config.cloud.useCloudStorage
+    ? `https://storage.googleapis.com/${config.cloud.bucketName}/feed.xml`
+    : `${config.podcast.siteUrl}/feed.xml`;
+    
   const functionUrl = config.api.functionUrl;
   
   // Sort episodes by date (newest first)
@@ -401,13 +401,38 @@ export async function createLandingPage(episodes = [], usageStats = null) {
 </html>
   `;
   
-  const publicUrl = await saveToCloudStorage(
-    'index.html',
-    html,
-    '',
-    'text/html'
-  );
+    if (config.cloud.useCloudStorage) {
   
-  console.log(`Landing page created at: ${publicUrl}`);
-  return publicUrl;
-}
+      const publicUrl = await saveToCloudStorage(
+  
+        'index.html',
+  
+        html,
+  
+        '',
+  
+        'text/html'
+  
+      );
+  
+      console.log(`Landing page created at: ${publicUrl}`);
+  
+      return publicUrl;
+  
+    } else {
+  
+      // Local write
+  
+      const outputPath = path.join(process.cwd(), 'index.html');
+  
+      await fs.writeFile(outputPath, html, 'utf8');
+  
+      console.log(`Landing page generated locally at: ${outputPath}`);
+  
+      return outputPath;
+  
+    }
+  
+  }
+  
+  
