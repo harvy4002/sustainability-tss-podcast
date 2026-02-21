@@ -50,20 +50,26 @@ export async function createLandingPage(episodes = [], usageStats = null) {
     
     usageHtml = `
     <div class="usage-card">
-      <h3>Monthly TTS Usage & Cost</h3>
-      
-      <h4>Chirp 3: HD Voice (Premium)</h4>
-      <div class="progress-bar-container">
-        <div class="progress-bar" style="width: ${chirpPercent}%; background-color: ${chirpColor};"></div>
-      </div>
-      <div class="usage-text">
-        <span>${chirpUsed.toLocaleString()} / ${chirpLimit.toLocaleString()} chars</span>
-        <span class="cost-tag">${chirpUsed >= chirpLimit ? 'Charges Apply' : 'Free Tier'}</span>
-      </div>
-      <p class="usage-note">Using high-fidelity Chirp 3: HD models (1M chars free, then $30/1M).</p>
-      
-      <h4 style="margin-top: 30px;">Estimated Total Cost This Month: ${totalCost}</h4>
-      <p class="usage-note">Usage and cost estimates reset on the 1st of each month.</p>
+      <details>
+        <summary>
+          <h3>Monthly TTS Usage & Cost</h3>
+        </summary>
+        
+        <div class="usage-details">
+          <h4>Chirp 3: HD Voice (Premium)</h4>
+          <div class="progress-bar-container">
+            <div class="progress-bar" style="width: ${chirpPercent}%; background-color: ${chirpColor};"></div>
+          </div>
+          <div class="usage-text">
+            <span>${chirpUsed.toLocaleString()} / ${chirpLimit.toLocaleString()} chars</span>
+            <span class="cost-tag">${chirpUsed >= chirpLimit ? 'Charges Apply' : 'Free Tier'}</span>
+          </div>
+          <p class="usage-note">Using high-fidelity Chirp 3: HD models (1M chars free, then $30/1M).</p>
+          
+          <h4 style="margin-top: 30px;">Estimated Total Cost This Month: ${totalCost}</h4>
+          <p class="usage-note">Usage and cost estimates reset on the 1st of each month.</p>
+        </div>
+      </details>
     </div>
     `;
   }
@@ -258,9 +264,40 @@ export async function createLandingPage(episodes = [], usageStats = null) {
     .usage-card h3 {
       margin-top: 0;
       font-size: 1.5rem;
-      border-bottom: 2px solid #e2e8f0;
+      margin-bottom: 0;
+      display: inline-block;
+    }
+    .usage-card summary {
+      cursor: pointer;
       padding-bottom: 10px;
+      border-bottom: 2px solid #bbf7d0; /* Green-200 */
+      margin-bottom: 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      list-style: none;
+    }
+    .usage-card summary::-webkit-details-marker {
+      display: none;
+    }
+    .usage-card summary::after {
+      content: '+';
+      font-size: 1.5rem;
+      color: #15803d;
+      font-weight: bold;
+    }
+    .usage-card details[open] summary {
       margin-bottom: 20px;
+    }
+    .usage-card details[open] summary::after {
+      content: '-';
+    }
+    .usage-details {
+      animation: slideDown 0.2s ease-out;
+    }
+    @keyframes slideDown {
+      from { opacity: 0; transform: translateY(-5px); }
+      to { opacity: 1; transform: translateY(0); }
     }
     .usage-card h4 {
       margin-top: 25px;
