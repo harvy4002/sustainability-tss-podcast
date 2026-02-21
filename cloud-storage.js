@@ -91,11 +91,15 @@ export async function saveToCloudStorage(fileName, content, destination, content
     
     console.log(`Saving ${fileName} to gs://${bucketName}/${destinationPath}`);
     
+    const cacheControl = (fileName.endsWith('.html') || fileName.endsWith('.xml') || fileName.endsWith('.json'))
+      ? 'no-cache, no-store, must-revalidate'
+      : 'public, max-age=31536000';
+
     // Upload the content without predefinedAcl since we're using uniform bucket-level access
     await file.save(content, {
       contentType: contentType,
       metadata: {
-        cacheControl: 'public, max-age=31536000',
+        cacheControl: cacheControl,
       }
       // No predefinedAcl - rely on bucket-level permissions instead
     });
