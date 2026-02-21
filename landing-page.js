@@ -78,11 +78,11 @@ export async function createLandingPage(episodes = [], usageStats = null) {
     :root {
       --primary: #16a34a; /* Green-600 */
       --primary-hover: #15803d; /* Green-700 */
-      --bg: #f8fafc;
-      --text: #1e293b;
+      --bg: #f0fdf4; /* Green-50 */
+      --text: #064e3b; /* Green-900 */
       --text-muted: #64748b;
       --card-bg: #ffffff;
-      --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+      --shadow: 0 4px 6px -1px rgb(22 163 74 / 0.1), 0 2px 4px -2px rgb(22 163 74 / 0.1); /* Green shadow */
     }
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
@@ -101,10 +101,12 @@ export async function createLandingPage(episodes = [], usageStats = null) {
       text-align: center;
       margin-bottom: 40px;
     }
+    h1, h2, h3 {
+      color: #15803d; /* Green-700 */
+    }
     h1 {
       font-size: 2.5rem;
       margin-bottom: 10px;
-      color: var(--text);
     }
     .podcast-description {
       color: var(--text-muted);
@@ -118,7 +120,7 @@ export async function createLandingPage(episodes = [], usageStats = null) {
       padding: 24px;
       margin-bottom: 40px;
       box-shadow: var(--shadow);
-      border: 1px solid #e2e8f0;
+      border: 1px solid #bbf7d0; /* Green-200 */
     }
     .input-group {
       display: flex;
@@ -128,39 +130,45 @@ export async function createLandingPage(episodes = [], usageStats = null) {
     input[type="url"] {
       flex: 1;
       padding: 12px;
-      border: 1px solid #cbd5e1;
+      border: 1px solid #86efac; /* Green-300 */
       border-radius: 6px;
       font-size: 1rem;
+      background-color: #f0fdf4;
+    }
+    input[type="url"]:focus {
+      outline: 2px solid var(--primary);
+      border-color: var(--primary);
     }
     .status-message {
       margin-top: 10px;
       font-size: 0.9rem;
       display: none;
     }
-    .status-message.success { color: #10b981; display: block; }
+    .status-message.success { color: #15803d; display: block; }
     .status-message.error { color: #ef4444; display: block; }
     .status-message.loading { color: var(--primary); display: block; }
     
     .subscription-box {
-      background: var(--card-bg);
+      background: #dcfce7; /* Green-100 */
       border-radius: 12px;
       padding: 24px;
       margin-bottom: 40px;
       box-shadow: var(--shadow);
-      border: 1px solid #e2e8f0;
+      border: 1px solid #86efac; /* Green-300 */
     }
     .feed-url-container {
       margin: 15px 0;
     }
     .feed-url {
-      background: #f1f5f9;
+      background: #ffffff;
       padding: 12px;
       border-radius: 6px;
       font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
       font-size: 0.9rem;
       word-break: break-all;
-      border: 1px solid #cbd5e1;
+      border: 1px solid #86efac; /* Green-300 */
       display: block;
+      color: #15803d;
     }
     .button {
       display: inline-block;
@@ -185,7 +193,7 @@ export async function createLandingPage(episodes = [], usageStats = null) {
     h2 {
       font-size: 1.5rem;
       margin-bottom: 20px;
-      border-bottom: 2px solid #e2e8f0;
+      border-bottom: 2px solid #bbf7d0; /* Green-200 */
       padding-bottom: 10px;
     }
     .episode-card {
