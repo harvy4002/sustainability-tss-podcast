@@ -76,8 +76,8 @@ export async function createLandingPage(episodes = [], usageStats = null) {
   <title>${config.podcast.title}</title>
   <style>
     :root {
-      --primary: #2563eb;
-      --primary-hover: #1d4ed8;
+      --primary: #16a34a; /* Green-600 */
+      --primary-hover: #15803d; /* Green-700 */
       --bg: #f8fafc;
       --text: #1e293b;
       --text-muted: #64748b;
