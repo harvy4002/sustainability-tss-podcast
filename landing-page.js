@@ -11,7 +11,7 @@ import path from 'path';
  */
 export async function createLandingPage(episodes = [], usageStats = null) {
   const feedUrl = config.cloud.useCloudStorage
-    ? `https://storage.googleapis.com/${config.cloud.bucketName}/feed.xml`
+    ? `https://storage.googleapis.com/${config.cloud.bucketName}/feed.xml` 
     : `${config.podcast.siteUrl}/feed.xml`;
     
   const functionUrl = config.api.functionUrl;
@@ -74,7 +74,8 @@ export async function createLandingPage(episodes = [], usageStats = null) {
         <div class="usage-details">
           <h4>Chirp 3: HD Voice (Premium)</h4>
           <div class="progress-bar-container">
-            <div class="progress-bar" style="width: ${chirpPercent}%; background-color: ${chirpColor};"></div>
+            <div class="progress-bar" style="width: ${chirpPercent}%; background-color: ${chirpColor};
+            "></div>
           </div>
           <div class="usage-text">
             <span>${chirpUsed.toLocaleString()} / ${chirpLimit.toLocaleString()} chars</span>
@@ -194,6 +195,32 @@ export async function createLandingPage(episodes = [], usageStats = null) {
     .status-message.error { color: #ef4444; display: block; }
     .status-message.loading { color: var(--primary); display: block; }
     
+    /* Progress Bar */
+    .progress-wrapper {
+      margin-top: 20px;
+      display: none;
+    }
+    .progress-bar-bg {
+      background: #e2e8f0;
+      border-radius: 99px;
+      height: 12px;
+      width: 100%;
+      overflow: hidden;
+    }
+    .progress-bar-fill {
+      height: 100%;
+      background-color: var(--primary);
+      width: 0%;
+      border-radius: 99px;
+      transition: width 0.3s ease;
+    }
+    .progress-text {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-top: 5px;
+      text-align: center;
+    }
+
     .subscription-box {
       background: #dcfce7; /* Green-100 */
       border-radius: 12px;
@@ -459,6 +486,12 @@ export async function createLandingPage(episodes = [], usageStats = null) {
                 <input type="url" id="articleUrl" name="url" placeholder="https://example.com/article" required>
                 <button type="submit" class="button" id="submitBtn">Convert</button>
             </div>
+            <div id="progressWrapper" class="progress-wrapper">
+                <div class="progress-bar-bg">
+                    <div id="progressBar" class="progress-bar-fill"></div>
+                </div>
+                <p id="progressText" class="progress-text">Starting...</p>
+            </div>
             <div id="statusMessage" class="status-message"></div>
         </form>
     </div>
@@ -492,6 +525,9 @@ export async function createLandingPage(episodes = [], usageStats = null) {
     const statusDiv = document.getElementById('statusMessage');
     const submitBtn = document.getElementById('submitBtn');
     const input = document.getElementById('articleUrl');
+    const progressWrapper = document.getElementById('progressWrapper');
+    const progressBar = document.getElementById('progressBar');
+    const progressText = document.getElementById('progressText');
     
     // The Cloud Function URL
     const FUNCTION_URL = '${functionUrl}';
@@ -505,13 +541,12 @@ export async function createLandingPage(episodes = [], usageStats = null) {
         // UI Loading State
         submitBtn.disabled = true;
         submitBtn.textContent = 'Processing...';
-        statusDiv.className = 'status-message loading';
-        statusDiv.textContent = 'Fetching article and generating audio. This may take a minute...';
+        statusDiv.style.display = 'none';
+        progressWrapper.style.display = 'block';
+        progressBar.style.width = '0%';
+        progressText.textContent = 'Connecting to server...';
         
         try {
-            // Construct URL with query param for GET request, or use POST if preferred
-            // Using GET for simplicity as per original design, but POST is better. 
-            // The function handles both now. Let's use POST.
             const response = await fetch(FUNCTION_URL, {
                 method: 'POST',
                 headers: {
@@ -525,21 +560,56 @@ export async function createLandingPage(episodes = [], usageStats = null) {
                 throw new Error(errorText || 'Failed to process article');
             }
             
-            const data = await response.json();
+            // Read the stream
+            const reader = response.body.getReader();
+            const decoder = new TextDecoder();
+            let buffer = '';
             
-            statusDiv.className = 'status-message success';
-            statusDiv.textContent = 'Success! Reloading page...';
-            
-            // Clear input
-            input.value = '';
-            
-            // Reload page to show new episode (after a short delay to allow GCS to update)
-            setTimeout(() => {
-                window.location.reload();
-            }, 2000);
+            while (true) {
+                const { done, value } = await reader.read();
+                if (done) break;
+                
+                buffer += decoder.decode(value, { stream: true });
+                const lines = buffer.split('\n');
+                
+                // Process all complete lines
+                buffer = lines.pop(); // Keep the last incomplete line in buffer
+                
+                for (const line of lines) {
+                    if (!line.trim()) continue;
+                    
+                    try {
+                        const event = JSON.parse(line);
+                        
+                        if (event.type === 'status' || event.type === 'progress') {
+                            if (event.percent !== undefined) {
+                                progressBar.style.width = event.percent + '%';
+                            }
+                            if (event.message) {
+                                progressText.textContent = event.message;
+                            }
+                        } else if (event.type === 'complete') {
+                            progressBar.style.width = '100%';
+                            progressText.textContent = 'Complete!';
+                            statusDiv.className = 'status-message success';
+                            statusDiv.textContent = 'Success! Reloading page...';
+                            
+                            // Reload after a delay
+                            setTimeout(() => {
+                                window.location.reload();
+                            }, 2000);
+                        } else if (event.type === 'error') {
+                            throw new Error(event.message);
+                        }
+                    } catch (err) {
+                        console.warn('Error parsing stream line:', err);
+                    }
+                }
+            }
             
         } catch (error) {
             console.error(error);
+            progressWrapper.style.display = 'none';
             statusDiv.className = 'status-message error';
             statusDiv.textContent = 'Error: ' + error.message;
             submitBtn.disabled = false;
@@ -549,8 +619,8 @@ export async function createLandingPage(episodes = [], usageStats = null) {
   </script>
 </body>
 </html>
-  `;
-  
+  `
+    
     if (config.cloud.useCloudStorage) {
   
       const publicUrl = await saveToCloudStorage(

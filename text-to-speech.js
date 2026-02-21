@@ -13,9 +13,10 @@ const client = new textToSpeech.TextToSpeechClient();
  * @param {string} text - The text to convert to speech
  * @param {string} title - Title for the filename
  * @param {Object} voiceConfig - The Google Cloud TTS voice configuration to use
+ * @param {Function} [onProgress] - Callback for progress updates (percentage, message)
  * @returns {Promise<string>} Path to the generated audio file
  */
-export async function textToAudio(text, title, voiceConfig) {
+export async function textToAudio(text, title, voiceConfig, onProgress) {
   if (!text || text.trim() === '') throw new Error('Empty text content');
   
   // Create a safe filename and setup paths
@@ -23,12 +24,15 @@ export async function textToAudio(text, title, voiceConfig) {
   console.log(`Processing text-to-speech for "${title}" (${text.length} characters) using voice config:`, voiceConfig);
   console.log(`Using cloud storage: ${config.cloud.useCloudStorage}`);
   
+  if (onProgress) onProgress(5, 'Checking existing files...');
+  
   try {
     // Check if file already exists
     if (config.cloud.useCloudStorage) {
       const fileExists = await fileExistsInCloudStorage(filename, 'audio');
       if (fileExists) {
         console.log(`Audio file ${filename} already exists in cloud storage. Skipping TTS conversion.`);
+        if (onProgress) onProgress(100, 'Audio already exists');
         return `https://storage.googleapis.com/${config.cloud.bucketName}/audio/${filename}`;
       }
     } else {
@@ -37,9 +41,12 @@ export async function textToAudio(text, title, voiceConfig) {
       try {
         await fs.access(localFilePath);
         console.log(`Audio file ${filename} already exists locally. Skipping TTS conversion.`);
+        if (onProgress) onProgress(100, 'Audio already exists');
         return localFilePath;
       } catch (err) { /* File doesn't exist, continue */ }
     }
+    
+    if (onProgress) onProgress(10, 'Splitting text...');
     
     // Split text into chunks if needed (GCP TTS has a limit)
     // Reducing chunk size to 1000 to avoid "sentence too long" errors from API
@@ -48,10 +55,15 @@ export async function textToAudio(text, title, voiceConfig) {
     // Process text chunks and combine audio
     const audioChunks = [];
     for (let i = 0; i < textChunks.length; i++) {
+      const progress = 10 + Math.round(((i) / textChunks.length) * 80); // 10% to 90%
+      if (onProgress) onProgress(progress, `Synthesizing audio chunk ${i + 1}/${textChunks.length}`);
+      
       if (textChunks.length > 1) console.log(`Processing chunk ${i + 1}/${textChunks.length}`);
       const audioContent = await synthesizeSpeech(textChunks[i], voiceConfig);
       audioChunks.push(Buffer.from(audioContent));
     }
+    
+    if (onProgress) onProgress(90, 'Combining and saving audio...');
     
     // Combine all audio chunks
     const audioContent = textChunks.length === 1 ? audioChunks[0] : Buffer.concat(audioChunks);
@@ -60,11 +72,13 @@ export async function textToAudio(text, title, voiceConfig) {
     if (config.cloud.useCloudStorage) {
       const publicUrl = await saveToCloudStorage(filename, audioContent, 'audio', 'audio/mpeg');
       console.log(`Audio saved to cloud storage: ${publicUrl}`);
+      if (onProgress) onProgress(100, 'Complete');
       return publicUrl;
     } else {
       const outputPath = path.join(config.output.audioDir, filename);
       await fs.writeFile(outputPath, audioContent);
       console.log(`Audio saved to: ${outputPath}`);
+      if (onProgress) onProgress(100, 'Complete');
       return outputPath;
     }
   } catch (error) {
