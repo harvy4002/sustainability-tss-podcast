@@ -292,6 +292,16 @@ export async function createLandingPage(episodes = [], usageStats = null) {
       margin-bottom: 20px;
       box-shadow: var(--shadow);
     }
+    .experimental-notice {
+      background: #fef3c7; /* Amber-100 */
+      border: 1px solid #fcd34d; /* Amber-300 */
+      color: #92400e; /* Amber-800 */
+      padding: 16px;
+      border-radius: 8px;
+      margin-bottom: 30px;
+      font-size: 0.95rem;
+      text-align: center;
+    }
     /* Usage Stats Styles */
     .usage-card {
       background: var(--card-bg);
@@ -431,6 +441,10 @@ export async function createLandingPage(episodes = [], usageStats = null) {
 </head>
 <body>
   <div class="container">
+    <div class="experimental-notice">
+      <strong>⚠️ Experimental Service:</strong> Audio quality may vary depending on how the web page is structured. 
+      Some pages may contain extra text or formatting that affects the speech output.
+    </div>
     <header>
       <img src="${config.podcast.imageUrl}" alt="Podcast Cover" class="cover">
       <h1>${config.podcast.title}</h1>

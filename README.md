@@ -61,3 +61,11 @@ curl -X POST https://europe-west2-hippo-ideas.cloudfunctions.net/sustainability-
 
 ## License
 MIT
+
+---
+
+## 📝 TODO List
+- [ ] Incorporate podcasts (RSS feeds of existing podcasts) as a source.
+- [ ] Support for multiple languages.
+- [ ] Ability to customize voice per article.
+- [ ] Batch upload support.
