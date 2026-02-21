@@ -4,7 +4,7 @@ import { generatePodcastFeed } from './podcast-feed.js';
 import { createLandingPage } from './landing-page.js';
 import { ensureDirectoryExists, loadJsonFile, saveJsonFile } from './utils.js';
 import { config } from './config.js';
-import { trackUsage, getCurrentMonthStats, getOptimalVoice } from './usage-tracker.js';
+import { trackUsage, getCurrentMonthStats, getOptimalVoice, logProcessingEvent } from './usage-tracker.js';
 
 /**
  * Cloud Function entry point
@@ -17,8 +17,9 @@ export async function generatePodcast(req, res) {
   res.set('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
   res.set('Access-Control-Allow-Headers', 'Content-Type');
   // Enable streaming
-  res.set('Content-Type', 'application/x-ndjson');
+  res.set('Content-Type', 'text/plain; charset=utf-8');
   res.set('Transfer-Encoding', 'chunked');
+  res.set('X-Content-Type-Options', 'nosniff');
   
   // Handle preflight request
   if (req.method === 'OPTIONS') {
@@ -119,6 +120,15 @@ export async function generatePodcast(req, res) {
     let updatedStats = await getCurrentMonthStats();
     if (totalCharsProcessed > 0) {
       updatedStats = await trackUsage(totalCharsProcessed, voiceUsedForThisRun);
+      
+      // Log detailed event for future carbon/energy analysis
+      await logProcessingEvent({
+        url: articleUrl,
+        title: newEpisode ? newEpisode.title : 'Unknown',
+        charCount: totalCharsProcessed,
+        voice: voiceUsedForThisRun
+      });
+      
       console.log(`Processed ${totalCharsProcessed} characters.`);
     }
 
