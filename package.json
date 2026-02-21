@@ -1,0 +1,35 @@
+{
+  "name": "sustainability-tss-podcast",
+  "version": "1.0.0",
+  "description": "Converts Instapaper RSS articles to podcast episodes using Google Cloud TTS",
+  "main": "function.js",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js",
+    "deploy": "gcloud functions deploy sustainability-tss-podcast --project=hippo-ideas --gen2 --runtime=nodejs20 --trigger-http --allow-unauthenticated --region=europe-west2 --source=. --entry-point=generatePodcast --service-account=971698071276-compute@developer.gserviceaccount.com --set-env-vars=GCS_BUCKET_NAME=sustainability-podcast-data,USE_CLOUD_STORAGE=true,GOOGLE_CLOUD_PROJECT=hippo-ideas,FUNCTION_URL=https://europe-west2-hippo-ideas.cloudfunctions.net/sustainability-tss-podcast",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "cleanup": "node cleanup-podcast.js",
+    "list-articles": "node cleanup-podcast.js --list"
+  },
+  "keywords": [
+    "rss",
+    "podcast",
+    "text-to-speech",
+    "google-cloud",
+    "instapaper"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@google-cloud/storage": "^6.10.1",
+    "@google-cloud/text-to-speech": "^6.4.0",
+    "@mozilla/readability": "^0.6.0",
+    "axios": "^1.4.0",
+    "dotenv": "^16.3.1",
+    "feed": "^4.2.2",
+    "html-to-text": "^9.0.5",
+    "jsdom": "^27.4.0",
+    "sanitize-filename": "^1.6.3",
+    "uuid": "^9.0.0"
+  }
+}

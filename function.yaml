@@ -1,0 +1,10 @@
+runtime: nodejs18
+entry_point: generatePodcast
+timeout_sec: 540  # 9 minutes max for HTTP functions
+memory_mb: 1024   # Increase memory as needed for TTS operations
+trigger_http: true
+service_account_email: {SERVICE_ACCOUNT_EMAIL}  # Replace with your service account
+environment_variables:
+  GCS_BUCKET_NAME: "{YOUR_BUCKET_NAME}"
+  USE_CLOUD_STORAGE: "true"
+  GOOGLE_CLOUD_PROJECT: "{YOUR_PROJECT_ID}"

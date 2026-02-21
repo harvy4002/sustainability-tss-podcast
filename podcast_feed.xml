@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>Instapaper Articles</title>
+        <link>https://example.com</link>
+        <description>Articles from Instapaper read aloud</description>
+        <lastBuildDate>Thu, 11 Sep 2025 16:51:35 GMT</lastBuildDate>
+        <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
+        <generator>Content Syndication Generator</generator>
+        <language>en</language>
+        <image>
+            <title>Instapaper Articles</title>
+            <url>https://example.com/podcast-image.jpg</url>
+            <link>https://example.com</link>
+        </image>
+        <copyright>Copyright 2025</copyright>
+        <atom:link href="https://storage.googleapis.com/instapaper-podcasts/feed.xml" rel="self" type="application/rss+xml"/>
+        <item>
+            <title><![CDATA[Why Are There So Many Rationalist Cults?—Asterisk]]></title>
+            <link>https://asteriskmag.com/issues/11/why-are-there-so-many-rationalist-cults</link>
+            <guid>https://asteriskmag.com/issues/11/why-are-there-so-many-rationalist-cults</guid>
+            <pubDate>Thu, 11 Sep 2025 16:47:03 GMT</pubDate>
+            <description><![CDATA[Why Are There So Many Rationalist Cults?—Asterisk]]></description>
+            <content:encoded><![CDATA[Why Are There So Many Rationalist Cults?—Asterisk]]></content:encoded>
+            <enclosure length="0" type="audio/mpeg" url="https://storage.googleapis.com/instapaper-podcasts/audio/why-are-there-so-many-rationalist-cults—asterisk-de4d246a.mp3" size="74"/>
+        </item>
+        <item>
+            <title><![CDATA[The Timmy Trap – Scott Jenson]]></title>
+            <link>https://jenson.org/timmy/</link>
+            <guid>https://jenson.org/timmy/</guid>
+            <pubDate>Thu, 11 Sep 2025 16:45:42 GMT</pubDate>
+            <description><![CDATA[The Timmy Trap – Scott Jenson]]></description>
+            <content:encoded><![CDATA[The Timmy Trap – Scott Jenson]]></content:encoded>
+            <enclosure length="0" type="audio/mpeg" url="https://storage.googleapis.com/instapaper-podcasts/audio/the-timmy-trap-–-scott-jenson-176339e1.mp3" size="44"/>
+        </item>
+        <item>
+            <title><![CDATA[First attempt will be 95% garbage: A staff engineer's 6-week journey with Claude Code | Sanity]]></title>
+            <link>https://www.sanity.io/blog/first-attempt-will-be-95-garbage</link>
+            <guid>https://www.sanity.io/blog/first-attempt-will-be-95-garbage</guid>
+            <pubDate>Thu, 11 Sep 2025 16:45:18 GMT</pubDate>
+            <description><![CDATA[First attempt will be 95% garbage: A staff engineer's 6-week journey with Claude Code | Sanity]]></description>
+            <content:encoded><![CDATA[First attempt will be 95% garbage: A staff engineer's 6-week journey with Claude Code | Sanity]]></content:encoded>
+            <enclosure length="0" type="audio/mpeg" url="https://storage.googleapis.com/instapaper-podcasts/audio/first-attempt-will-be-95%-garbage-a-staff-engineer's-6-week-journey-with-claude-code-sanity-527f6586.mp3" size="141"/>
+        </item>
+        <item>
+            <title><![CDATA[Three AI Futures – Communications of the ACM]]></title>
+            <link>https://cacm.acm.org/opinion/three-ai-futures/</link>
+            <guid>https://cacm.acm.org/opinion/three-ai-futures/</guid>
+            <pubDate>Wed, 10 Sep 2025 15:29:55 GMT</pubDate>
+            <description><![CDATA[Three AI Futures – Communications of the ACM]]></description>
+            <content:encoded><![CDATA[Three AI Futures – Communications of the ACM]]></content:encoded>
+            <enclosure length="0" type="audio/mpeg" url="https://storage.googleapis.com/instapaper-podcasts/audio/three-ai-futures-–-communications-of-the-acm-8cdcab16.mp3" size="66"/>
+        </item>
+        <item>
+            <title><![CDATA[My LLM codegen workflow atm]]></title>
+            <link>https://harper.blog/2025/02/16/my-llm-codegen-workflow-atm/</link>
+            <guid>https://harper.blog/2025/02/16/my-llm-codegen-workflow-atm/</guid>
+            <pubDate>Wed, 10 Sep 2025 15:29:02 GMT</pubDate>
+            <description><![CDATA[My LLM codegen workflow atm]]></description>
+            <content:encoded><![CDATA[My LLM codegen workflow atm]]></content:encoded>
+            <enclosure length="0" type="audio/mpeg" url="https://storage.googleapis.com/instapaper-podcasts/audio/my-llm-codegen-workflow-atm-fc2a8481.mp3" size="41"/>
+        </item>
+        <item>
+            <title><![CDATA[Germany has too many solar panels, and it's pushed energy prices into negative territory]]></title>
+            <link>https://markets.businessinsider.com/news/commodities/solar-panel-supply-german-electricity-prices-negative-renewable-demand-green-2024-5</link>
+            <guid>https://markets.businessinsider.com/news/commodities/solar-panel-supply-german-electricity-prices-negative-renewable-demand-green-2024-5</guid>
+            <pubDate>Wed, 10 Sep 2025 08:28:15 GMT</pubDate>
+            <description><![CDATA[Germany has too many solar panels, and it's pushed energy prices into negative territory]]></description>
+            <content:encoded><![CDATA[Germany has too many solar panels, and it's pushed energy prices into negative territory]]></content:encoded>
+            <enclosure length="0" type="audio/mpeg" url="https://storage.googleapis.com/instapaper-podcasts/audio/germany-has-too-many-solar-panels,-and-it's-pushed-energy-prices-into-negative-territory-b66494f0.mp3" size="132"/>
+        </item>
+        <item>
+            <title><![CDATA[Our new guide to doing good with your career]]></title>
+            <link>https://80000hours.org/advanced-series/</link>
+            <guid>https://80000hours.org/advanced-series/</guid>
+            <pubDate>Wed, 10 Sep 2025 08:28:01 GMT</pubDate>
+            <description><![CDATA[Our new guide to doing good with your career]]></description>
+            <content:encoded><![CDATA[Our new guide to doing good with your career]]></content:encoded>
+            <enclosure length="0" type="audio/mpeg" url="https://storage.googleapis.com/instapaper-podcasts/audio/our-new-guide-to-doing-good-with-your-career-41130512.mp3" size="66"/>
+        </item>
+        <item>
+            <title><![CDATA[Physics — Susan Rigetti]]></title>
+            <link>https://www.susanrigetti.com/physics</link>
+            <guid>https://www.susanrigetti.com/physics</guid>
+            <pubDate>Wed, 10 Sep 2025 08:27:21 GMT</pubDate>
+            <description><![CDATA[Physics — Susan Rigetti]]></description>
+            <content:encoded><![CDATA[Physics — Susan Rigetti]]></content:encoded>
+            <enclosure length="0" type="audio/mpeg" url="https://storage.googleapis.com/instapaper-podcasts/audio/physics-—-susan-rigetti-a3563c51.mp3" size="35"/>
+        </item>
+        <item>
+            <title><![CDATA[10 beautiful and memorable German words - Berlino Schule]]></title>
+            <link>https://en.berlinoschule.com/10-beautiful-german-words-to-absolutely-know/</link>
+            <guid>https://en.berlinoschule.com/10-beautiful-german-words-to-absolutely-know/</guid>
+            <pubDate>Wed, 10 Sep 2025 08:25:51 GMT</pubDate>
+            <description><![CDATA[10 beautiful and memorable German words - Berlino Schule]]></description>
+            <content:encoded><![CDATA[10 beautiful and memorable German words - Berlino Schule]]></content:encoded>
+            <enclosure length="0" type="audio/mpeg" url="https://storage.googleapis.com/instapaper-podcasts/audio/10-beautiful-and-memorable-german-words---berlino-schule-687094c2.mp3" size="84"/>
+        </item>
+        <item>
+            <title><![CDATA[Scrum's Built-in 'Get Out of Jail Free Card' Against Criticism]]></title>
+            <link>https://mdalmijn.com/p/scrums-built-in-get-out-of-jail-free</link>
+            <guid>https://mdalmijn.com/p/scrums-built-in-get-out-of-jail-free</guid>
+            <pubDate>Wed, 10 Sep 2025 08:25:25 GMT</pubDate>
+            <description><![CDATA[Scrum's Built-in 'Get Out of Jail Free Card' Against Criticism]]></description>
+            <content:encoded><![CDATA[Scrum's Built-in 'Get Out of Jail Free Card' Against Criticism]]></content:encoded>
+            <enclosure length="0" type="audio/mpeg" url="https://storage.googleapis.com/instapaper-podcasts/audio/scrum's-built-in-'get-out-of-jail-free-card'-against-criticism-5f39562c.mp3" size="93"/>
+        </item>
+        <item>
+            <title><![CDATA[How to NOT build a two stage model rocket | vgecrocketry]]></title>
+            <link>https://knowone08.gitbook.io/vgecrocketry</link>
+            <guid>https://knowone08.gitbook.io/vgecrocketry</guid>
+            <pubDate>Tue, 09 Sep 2025 23:35:56 GMT</pubDate>
+            <description><![CDATA[How to NOT build a two stage model rocket | vgecrocketry]]></description>
+            <content:encoded><![CDATA[How to NOT build a two stage model rocket | vgecrocketry]]></content:encoded>
+            <enclosure length="0" type="audio/mpeg" url="https://storage.googleapis.com/instapaper-podcasts/audio/how-to-not-build-a-two-stage-model-rocket-vgecrocketry-8375ce7f.mp3" size="84"/>
+        </item>
+        <item>
+            <title><![CDATA[ChatGPT Is a Blurry JPEG of the Web]]></title>
+            <link>https://www.newyorker.com/tech/annals-of-technology/chatgpt-is-a-blurry-jpeg-of-the-web</link>
+            <guid>https://www.newyorker.com/tech/annals-of-technology/chatgpt-is-a-blurry-jpeg-of-the-web</guid>
+            <pubDate>Tue, 09 Sep 2025 23:35:10 GMT</pubDate>
+            <description><![CDATA[ChatGPT Is a Blurry JPEG of the Web]]></description>
+            <content:encoded><![CDATA[ChatGPT Is a Blurry JPEG of the Web]]></content:encoded>
+            <enclosure length="0" type="audio/mpeg" url="https://storage.googleapis.com/instapaper-podcasts/audio/chatgpt-is-a-blurry-jpeg-of-the-web-bc2b304d.mp3" size="53"/>
+        </item>
+        <item>
+            <title><![CDATA[A Bunch of Programming Advice I'd Give To Myself 15 Years Ago | Marcus' Blog]]></title>
+            <link>https://mbuffett.com/posts/programming-advice-younger-self/</link>
+            <guid>https://mbuffett.com/posts/programming-advice-younger-self/</guid>
+            <pubDate>Tue, 09 Sep 2025 23:34:00 GMT</pubDate>
+            <description><![CDATA[A Bunch of Programming Advice I'd Give To Myself 15 Years Ago | Marcus' Blog]]></description>
+            <content:encoded><![CDATA[A Bunch of Programming Advice I'd Give To Myself 15 Years Ago | Marcus' Blog]]></content:encoded>
+            <enclosure length="0" type="audio/mpeg" url="https://storage.googleapis.com/instapaper-podcasts/audio/a-bunch-of-programming-advice-i'd-give-to-myself-15-years-ago-marcus'-blog-b470feaf.mp3" size="114"/>
+        </item>
+    </channel>
+</rss>
