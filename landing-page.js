@@ -92,7 +92,18 @@ export async function createLandingPage(episodes = [], usageStats = null) {
 
     carbonHtml = `
     <div class="carbon-card">
-      <h3>🌱 Carbon Impact</h3>
+      <h3>
+        🌱 Carbon Impact
+        <div class="info-icon">
+          i
+          <div class="tooltip">
+            <strong>Methodology:</strong><br>
+            • AI Energy: ~0.5 kWh per 1M chars processed.<br>
+            • Grid Intensity: ~200g CO₂e/kWh (London).<br>
+            • Smartphone: 1 full charge ≈ 0.015 kWh (15 Wh battery).
+          </div>
+        </div>
+      </h3>
       <div class="carbon-grid">
         <div class="carbon-stat">
           <div class="carbon-value">${gramsCo2 < 1 ? '< 1' : Math.round(gramsCo2)}g</div>
@@ -432,6 +443,56 @@ export async function createLandingPage(episodes = [], usageStats = null) {
       border-bottom: 1px solid #10b981;
       padding-bottom: 15px;
       margin-bottom: 20px;
+      position: relative;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .info-icon {
+      font-size: 1rem;
+      background: rgba(255,255,255,0.2);
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: help;
+      position: relative;
+    }
+    .tooltip {
+      visibility: hidden;
+      width: 280px;
+      background-color: #ffffff;
+      color: #1e293b;
+      text-align: left;
+      border-radius: 8px;
+      padding: 12px;
+      position: absolute;
+      z-index: 1;
+      bottom: 125%;
+      right: 0;
+      opacity: 0;
+      transition: opacity 0.3s;
+      font-size: 0.85rem;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+      font-weight: normal;
+      line-height: 1.5;
+      border: 1px solid #e2e8f0;
+    }
+    .tooltip::after {
+      content: "";
+      position: absolute;
+      top: 100%;
+      right: 8px;
+      margin-left: -5px;
+      border-width: 5px;
+      border-style: solid;
+      border-color: #ffffff transparent transparent transparent;
+    }
+    .info-icon:hover .tooltip {
+      visibility: visible;
+      opacity: 1;
     }
     .carbon-grid {
       display: grid;
