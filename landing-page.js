@@ -40,13 +40,28 @@ export async function createLandingPage(episodes = [], usageStats = null) {
 
   // Usage Stats HTML
   let usageHtml = '';
+  let carbonHtml = '';
+  
   if (usageStats) {
     const chirpLimit = 1000000; // 1 Million characters free
     const chirpUsed = usageStats.chirpChars || 0;
+    const totalChars = usageStats.totalChars || 0;
     const chirpPercent = Math.min(100, (chirpUsed / chirpLimit) * 100);
     const chirpColor = chirpPercent > 90 ? '#ef4444' : (chirpPercent > 75 ? '#f59e0b' : '#10b981');
     
     const totalCost = usageStats.costEstimate > 0 ? `$${usageStats.costEstimate.toFixed(2)}` : 'Free';
+    
+    // Carbon Calculation (Estimates)
+    // Assumption: 1M chars ~= 0.5 kWh of compute (AI inference)
+    // UK Grid Intensity: ~200g CO2e/kWh
+    const kwhPerMillionChars = 0.5;
+    const gramsCo2PerKwh = 200;
+    const estimatedKwh = (totalChars / 1000000) * kwhPerMillionChars;
+    const gramsCo2 = estimatedKwh * gramsCo2PerKwh;
+    
+    // Comparisons
+    // Smartphone charge: ~0.015 kWh (approx 15g CO2e depending on grid)
+    const smartphoneCharges = Math.round(estimatedKwh / 0.015);
     
     usageHtml = `
     <div class="usage-card">
@@ -70,6 +85,30 @@ export async function createLandingPage(episodes = [], usageStats = null) {
           <p class="usage-note">Usage and cost estimates reset on the 1st of each month.</p>
         </div>
       </details>
+    </div>
+    `;
+
+    carbonHtml = `
+    <div class="carbon-card">
+      <h3>🌱 Carbon Impact</h3>
+      <div class="carbon-grid">
+        <div class="carbon-stat">
+          <div class="carbon-value">${gramsCo2 < 1 ? '< 1' : Math.round(gramsCo2)}g</div>
+          <div class="carbon-label">CO₂e Emitted</div>
+        </div>
+        <div class="carbon-stat">
+          <div class="carbon-value">${estimatedKwh.toFixed(4)}</div>
+          <div class="carbon-label">kWh Energy</div>
+        </div>
+        <div class="carbon-stat">
+          <div class="carbon-value">${smartphoneCharges}</div>
+          <div class="carbon-label">Phone Charges</div>
+        </div>
+      </div>
+      <p class="carbon-note">
+        Estimates based on Google Cloud region <code>europe-west2</code> (London) carbon intensity and AI inference energy models. 
+        Running on renewable energy where available.
+      </p>
     </div>
     `;
   }
@@ -338,6 +377,55 @@ export async function createLandingPage(episodes = [], usageStats = null) {
       margin-top: 10px;
       margin-bottom: 0;
     }
+    
+    /* Carbon Card Styles */
+    .carbon-card {
+      background: #064e3b; /* Deep Green */
+      color: white;
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 40px;
+      box-shadow: var(--shadow);
+    }
+    .carbon-card h3 {
+      color: #86efac; /* Light Green */
+      margin-top: 0;
+      font-size: 1.5rem;
+      border-bottom: 1px solid #10b981;
+      padding-bottom: 15px;
+      margin-bottom: 20px;
+    }
+    .carbon-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 15px;
+      text-align: center;
+    }
+    .carbon-stat {
+      background: rgb(255 255 255 / 0.1);
+      padding: 15px 10px;
+      border-radius: 8px;
+    }
+    .carbon-value {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #ffffff;
+      margin-bottom: 5px;
+    }
+    .carbon-label {
+      font-size: 0.85rem;
+      color: #86efac;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .carbon-note {
+      font-size: 0.8rem;
+      color: #a7f3d0;
+      margin-top: 20px;
+      margin-bottom: 0;
+      text-align: center;
+      line-height: 1.4;
+    }
   </style>
 </head>
 <body>
@@ -361,6 +449,8 @@ export async function createLandingPage(episodes = [], usageStats = null) {
     </div>
     
     ${usageHtml}
+    
+    ${carbonHtml}
     
     <div class="subscription-box">
       <h3>Subscribe to the Podcast</h3>
@@ -479,5 +569,3 @@ export async function createLandingPage(episodes = [], usageStats = null) {
     }
   
   }
-  
-  
