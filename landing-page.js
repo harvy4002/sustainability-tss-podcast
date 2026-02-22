@@ -57,11 +57,14 @@ export async function createLandingPage(episodes = [], usageStats = null) {
     const estimatedKwh = (lifetimeChars / 1000000) * kwhPerMillionChars;
     const gramsCo2 = estimatedKwh * gramsCo2PerKwh;
     const smartphoneCharges = Math.round(estimatedKwh / 0.015);
+    const hoursProcessed = lifetimeChars / 48000; // Approx 48k chars per hour (800 chars/min)
     
     carbon = {
       co2: (gramsCo2 / 1000).toFixed(2),
       energy: estimatedKwh.toFixed(3),
-      charges: smartphoneCharges.toLocaleString()
+      charges: smartphoneCharges.toLocaleString(),
+      hours: hoursProcessed.toFixed(1),
+      articleCount: usageStats.lifetimeArticleCount || episodes.length
     };
   }
 

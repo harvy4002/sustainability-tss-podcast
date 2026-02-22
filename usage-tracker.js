@@ -64,6 +64,7 @@ export async function trackUsage(charCount, voiceName) {
   // Update counts
   stats.history[monthKey].chirpChars = (stats.history[monthKey].chirpChars || 0) + charCount;
   stats.history[monthKey].totalChars += charCount;
+  stats.history[monthKey].articleCount = (stats.history[monthKey].articleCount || 0) + 1;
   
   // Calculate Cost Estimate
   // Chirp 3: HD: First 1M free, then $30/1M characters
@@ -75,10 +76,12 @@ export async function trackUsage(charCount, voiceName) {
   await saveJsonFile(STATS_FILE, stats);
   
   const lifetimeTotalChars = calculateLifetimeTotal(stats);
+  const lifetimeArticleCount = calculateLifetimeArticles(stats);
   
   return {
     ...stats.history[monthKey],
-    lifetimeTotalChars
+    lifetimeTotalChars,
+    lifetimeArticleCount
   };
 }
 
@@ -93,14 +96,17 @@ export async function getCurrentMonthStats() {
   const currentMonth = stats.history[monthKey] || { 
     chirpChars: 0, 
     totalChars: 0, 
-    costEstimate: 0 
+    costEstimate: 0,
+    articleCount: 0
   };
   
   const lifetimeTotalChars = calculateLifetimeTotal(stats);
+  const lifetimeArticleCount = calculateLifetimeArticles(stats);
   
   return {
     ...currentMonth,
-    lifetimeTotalChars
+    lifetimeTotalChars,
+    lifetimeArticleCount
   };
 }
 
@@ -110,6 +116,18 @@ function calculateLifetimeTotal(stats) {
     for (const key in stats.history) {
       if (stats.history[key].totalChars) {
         total += stats.history[key].totalChars;
+      }
+    }
+  }
+  return total;
+}
+
+function calculateLifetimeArticles(stats) {
+  let total = 0;
+  if (stats && stats.history) {
+    for (const key in stats.history) {
+      if (stats.history[key].articleCount) {
+        total += stats.history[key].articleCount;
       }
     }
   }

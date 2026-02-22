@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "start": "node server.js",
-    "deploy": "gcloud functions deploy sustainability-tss-podcast --gen2 --runtime=nodejs20 --trigger-http --allow-unauthenticated --region=europe-west2 --source=. --entry-point=generatePodcast --service-account=971698071276-compute@developer.gserviceaccount.com --set-env-vars=GCS_BUCKET_NAME=sustainability-podcast,USE_CLOUD_STORAGE=true,GOOGLE_CLOUD_PROJECT=hippo-ideas,FUNCTION_URL=https://europe-west2-hippo-ideas.cloudfunctions.net/sustainability-tss-podcast --timeout=540s --memory=1024MB",
+    "deploy": "gcloud functions deploy sustainability-tss-podcast --gen2 --runtime=nodejs20 --trigger-http --allow-unauthenticated --region=europe-west2 --source=. --entry-point=generatePodcast --service-account=971698071276-compute@developer.gserviceaccount.com --set-env-vars=GCS_BUCKET_NAME=sustainability-podcast,USE_CLOUD_STORAGE=true,GOOGLE_CLOUD_PROJECT=hippo-ideas,FUNCTION_URL=https://europe-west2-hippo-ideas.cloudfunctions.net/sustainability-tss-podcast --timeout=540s --memory=1024MB && npm run refresh",
+    "refresh": "node trigger-update.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "cleanup": "node cleanup-podcast.js",
     "list-articles": "node cleanup-podcast.js --list"

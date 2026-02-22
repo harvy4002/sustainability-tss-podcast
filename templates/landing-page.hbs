@@ -187,9 +187,10 @@
     .carbon-card { background: #064e3b; color: white; border-radius: 12px; padding: 24px; margin-bottom: 40px; box-shadow: var(--shadow); }
     .carbon-card h3 { color: #86efac; border-bottom: 1px solid #10b981; padding-bottom: 15px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; position: relative; }
     .carbon-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; text-align: center; }
-    .carbon-stat { background: rgb(255 255 255 / 0.1); padding: 15px 10px; border-radius: 8px; }
-    .carbon-value { font-size: 1.5rem; font-weight: bold; }
-    .carbon-label { font-size: 0.85rem; color: #86efac; }
+    .carbon-stat { background: rgb(255 255 255 / 0.1); padding: 15px 10px; border-radius: 8px; display: flex; flex-direction: column; justify-content: center; }
+    .carbon-value { font-size: 1.5rem; font-weight: bold; line-height: 1.2; }
+    .carbon-label { font-size: 0.85rem; color: #86efac; margin-bottom: 4px; }
+    .carbon-divider { height: 1px; background: rgba(255,255,255,0.2); margin: 8px 10px; }
     .info-icon { background: rgba(255,255,255,0.2); width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: help; position: relative; font-size: 0.9rem; }
     .tooltip { visibility: hidden; width: 280px; background: white; color: #1e293b; border-radius: 8px; padding: 12px; position: absolute; bottom: 125%; right: 0; opacity: 0; transition: opacity 0.3s; font-size: 0.85rem; box-shadow: var(--shadow); font-weight: normal; border: 1px solid #e2e8f0; }
     .info-icon:hover .tooltip { visibility: visible; opacity: 1; }
@@ -273,15 +274,21 @@
       </h3>
       <div class="carbon-grid">
         <div class="carbon-stat">
-          <div class="carbon-value">{{carbon.co2}}kg</div>
-          <div class="carbon-label">CO₂e Emitted</div>
+          <div class="carbon-value">{{carbon.hours}}</div>
+          <div class="carbon-label">Hours Processed</div>
+          <div class="carbon-divider"></div>
+          <div class="carbon-value">{{carbon.articleCount}}</div>
+          <div class="carbon-label">Articles</div>
         </div>
         <div class="carbon-stat">
           <div class="carbon-value">{{carbon.energy}}</div>
           <div class="carbon-label">kWh Energy</div>
+          <div class="carbon-divider"></div>
+          <div class="carbon-value">{{carbon.co2}}kg</div>
+          <div class="carbon-label">CO₂e Emitted</div>
         </div>
-        <div class="carbon-stat">
-          <div class="carbon-value">{{carbon.charges}}</div>
+        <div class="carbon-stat" style="justify-content: center;">
+          <div class="carbon-value" style="font-size: 2.5rem; margin-bottom: 5px;">{{carbon.charges}}</div>
           <div class="carbon-label">Phone Charges</div>
         </div>
       </div>
