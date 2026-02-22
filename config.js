@@ -45,10 +45,10 @@ export const config = {
   
   // Podcast metadata
   podcast: {
-    title: process.env.PODCAST_TITLE || 'Sustainability TSS Podcast',
+    title: process.env.PODCAST_TITLE || 'Sustainability Podcast Generator',
     description: process.env.PODCAST_DESCRIPTION || 'Articles on sustainability read aloud',
-    author: process.env.PODCAST_AUTHOR || 'Sustainability TSS Podcast',
-    siteUrl: process.env.PODCAST_SITE_URL || 'https://example.com',
+    author: process.env.PODCAST_AUTHOR || 'Sustainability TTS',
+    siteUrl: process.env.PODCAST_SITE_URL || 'https://storage.googleapis.com/sustainability-podcast',
     imageUrl: process.env.PODCAST_IMAGE_URL || 'https://storage.googleapis.com/sustainability-podcast/logo.png',
     language: 'en',
     categories: ['Technology', 'News']

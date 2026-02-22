@@ -1,0 +1,11 @@
+runtime: nodejs20
+entry_point: generatePodcast
+timeout_sec: 540  # 9 minutes max for HTTP functions
+memory_mb: 1024   # Increase memory as needed for TTS operations
+trigger_http: true
+service_account_email: 971698071276-compute@developer.gserviceaccount.com
+environment_variables:
+  GCS_BUCKET_NAME: "sustainability-podcast"
+  USE_CLOUD_STORAGE: "true"
+  GOOGLE_CLOUD_PROJECT: "hippo-ideas"
+  FUNCTION_URL: "https://europe-west2-hippo-ideas.cloudfunctions.net/sustainability-tss-podcast"
