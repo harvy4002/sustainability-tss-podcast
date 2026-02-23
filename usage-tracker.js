@@ -5,17 +5,39 @@ const STATS_FILE = 'usage-stats.json';
 const LOG_FILE = 'processing-log.json';
 
 const CHIRP_FEMALE_VOICES = [
+  'en-US-Chirp3-HD-Achernar',
   'en-US-Chirp3-HD-Aoede',
+  'en-US-Chirp3-HD-Autonoe',
+  'en-US-Chirp3-HD-Callirrhoe',
+  'en-US-Chirp3-HD-Despina',
+  'en-US-Chirp3-HD-Erinome',
+  'en-US-Chirp3-HD-Gacrux',
   'en-US-Chirp3-HD-Kore',
+  'en-US-Chirp3-HD-Laomedeia',
   'en-US-Chirp3-HD-Leda',
+  'en-US-Chirp3-HD-Pulcherrima',
+  'en-US-Chirp3-HD-Sulafat',
+  'en-US-Chirp3-HD-Vindemiatrix',
   'en-US-Chirp3-HD-Zephyr'
 ];
 
 const CHIRP_MALE_VOICES = [
-  'en-US-Chirp3-HD-Puck',
+  'en-US-Chirp3-HD-Achird',
+  'en-US-Chirp3-HD-Algenib',
+  'en-US-Chirp3-HD-Algieba',
+  'en-US-Chirp3-HD-Alnilam',
   'en-US-Chirp3-HD-Charon',
+  'en-US-Chirp3-HD-Enceladus',
   'en-US-Chirp3-HD-Fenrir',
-  'en-US-Chirp3-HD-Orus'
+  'en-US-Chirp3-HD-Iapetus',
+  'en-US-Chirp3-HD-Orus',
+  'en-US-Chirp3-HD-Puck',
+  'en-US-Chirp3-HD-Rasalgethi',
+  'en-US-Chirp3-HD-Sadachbia',
+  'en-US-Chirp3-HD-Sadaltager',
+  'en-US-Chirp3-HD-Schedar',
+  'en-US-Chirp3-HD-Umbriel',
+  'en-US-Chirp3-HD-Zubenelgenubi'
 ];
 
 /**
