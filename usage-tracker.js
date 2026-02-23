@@ -5,39 +5,17 @@ const STATS_FILE = 'usage-stats.json';
 const LOG_FILE = 'processing-log.json';
 
 const CHIRP_FEMALE_VOICES = [
-  'en-US-Chirp3-HD-Achernar',
   'en-US-Chirp3-HD-Aoede',
-  'en-US-Chirp3-HD-Autonoe',
-  'en-US-Chirp3-HD-Callirrhoe',
-  'en-US-Chirp3-HD-Despina',
-  'en-US-Chirp3-HD-Erinome',
-  'en-US-Chirp3-HD-Gacrux',
   'en-US-Chirp3-HD-Kore',
-  'en-US-Chirp3-HD-Laomedeia',
   'en-US-Chirp3-HD-Leda',
-  'en-US-Chirp3-HD-Pulcherrima',
-  'en-US-Chirp3-HD-Sulafat',
-  'en-US-Chirp3-HD-Vindemiatrix',
   'en-US-Chirp3-HD-Zephyr'
 ];
 
 const CHIRP_MALE_VOICES = [
-  'en-US-Chirp3-HD-Bellatrix',
-  'en-US-Chirp3-HD-Canopus',
-  'en-US-Chirp3-HD-Castor',
-  'en-US-Chirp3-HD-Enif',
+  'en-US-Chirp3-HD-Puck',
+  'en-US-Chirp3-HD-Charon',
   'en-US-Chirp3-HD-Fenrir',
-  'en-US-Chirp3-HD-Hadar',
-  'en-US-Chirp3-HD-Helvetios',
-  'en-US-Chirp3-HD-Isonoe',
-  'en-US-Chirp3-HD-Menkar',
-  'en-US-Chirp3-HD-Miram',
-  'en-US-Chirp3-HD-Orion',
-  'en-US-Chirp3-HD-Polaris',
-  'en-US-Chirp3-HD-Rigel',
-  'en-US-Chirp3-HD-Sirius',
-  'en-US-Chirp3-HD-Spica',
-  'en-US-Chirp3-HD-Tarazed'
+  'en-US-Chirp3-HD-Orus'
 ];
 
 /**
