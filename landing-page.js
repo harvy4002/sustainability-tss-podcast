@@ -4,6 +4,7 @@ import fs from 'fs/promises';
 import path from 'path';
 import Handlebars from 'handlebars';
 import { fileURLToPath } from 'url';
+import QRCode from 'qrcode';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -20,6 +21,15 @@ export async function createLandingPage(episodes = [], usageStats = null) {
     
   const functionUrl = config.api.functionUrl;
   
+  // Generate QR Code for the site
+  const qrCodeDataUrl = await QRCode.toDataURL(config.podcast.siteUrl, {
+    margin: 2,
+    color: {
+      dark: '#15803d',
+      light: '#ffffff'
+    }
+  });
+
   // Sort episodes by date (newest first) and format for display
   const sortedEpisodes = [...episodes]
     .sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate))
@@ -79,6 +89,7 @@ export async function createLandingPage(episodes = [], usageStats = null) {
     feedUrl,
     feedUrlNoProtocol: feedUrl.replace('https://', ''),
     functionUrl,
+    qrCodeDataUrl,
     episodes: sortedEpisodes,
     usage,
     carbon,

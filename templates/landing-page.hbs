@@ -23,9 +23,20 @@
       padding: 0;
     }
     .container {
-      max-width: 800px;
+      max-width: 1000px;
       margin: 0 auto;
       padding: 40px 20px;
+    }
+    .main-layout {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 30px;
+    }
+    @media (min-width: 850px) {
+      .main-layout {
+        grid-template-columns: 2fr 1fr;
+        align-items: start;
+      }
     }
     header {
       text-align: center;
@@ -125,6 +136,48 @@
       box-shadow: var(--shadow);
       border: 1px solid #86efac;
     }
+    .subscription-box summary {
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      list-style: none;
+    }
+    .subscription-box summary h3 { margin: 0; }
+    .subscription-box summary::after { content: '+'; font-size: 1.5rem; color: #15803d; font-weight: bold; }
+    .subscription-box details[open] summary::after { content: '-'; }
+    .subscription-box details[open] summary {
+      padding-bottom: 15px;
+      border-bottom: 1px solid #86efac;
+      margin-bottom: 20px;
+    }
+    .subscription-box summary::-webkit-details-marker { display: none; }
+
+    .subscription-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+    .feed-url-container {
+      width: 100%;
+      text-align: left;
+      margin-bottom: 20px;
+    }
+    .qr-code {
+      margin-top: 20px;
+      background: white;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #86efac;
+      width: 150px;
+      height: 150px;
+    }
+    .qr-label {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-top: 8px;
+    }
     .feed-url {
       background: #ffffff;
       padding: 12px;
@@ -186,7 +239,7 @@
     
     .carbon-card { background: #064e3b; color: white; border-radius: 12px; padding: 24px; margin-bottom: 40px; box-shadow: var(--shadow); }
     .carbon-card h3 { color: #86efac; border-bottom: 1px solid #10b981; padding-bottom: 15px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; position: relative; }
-    .carbon-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; text-align: center; }
+    .carbon-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 15px; text-align: center; }
     .carbon-stat { background: rgb(255 255 255 / 0.1); padding: 15px 10px; border-radius: 8px; display: flex; flex-direction: column; justify-content: center; }
     .carbon-value { font-size: 1.5rem; font-weight: bold; line-height: 1.2; }
     .carbon-label { font-size: 0.85rem; color: #86efac; margin-bottom: 4px; }
@@ -220,112 +273,131 @@
       <h1>{{config.podcast.title}}</h1>
       <p class="podcast-description">{{config.podcast.description}}</p>
     </header>
-    <div class="add-article-card">
-      <h3>Add New Article</h3>
-      <form id="addArticleForm">
-        <div class="input-group">
-          <input type="url" id="articleUrl" placeholder="https://example.com/article" required>
-          <button type="submit" class="button" id="submitBtn">Convert</button>
-        </div>
-        <div id="progressWrapper" class="progress-wrapper">
-          <div class="progress-bar-bg"><div id="progressBar" class="progress-bar-fill"></div></div>
-          <p id="progressText" class="progress-text">Warming up...</p>
-        </div>
-        <div id="statusMessage" class="status-message"></div>
-      </form>
-    </div>
 
-    {{#if usage}}
-    <div class="usage-card">
-      <details>
-        <summary>
-          <h3>Monthly TTS Usage & Cost</h3>
-        </summary>
-        <div class="usage-details">
-          <h4>Chirp 3: HD Voice (Premium)</h4>
-          <div class="progress-bar-container">
-            <div class="progress-bar" style="width: {{usage.percent}}%; background-color: {{usage.color}};"></div>
-          </div>
-          <div class="usage-text">
-            <span>{{usage.used}} / {{usage.limit}} chars</span>
-            <span class="cost-tag">{{#if usage.isOverLimit}}Charges Apply{{else}}Free Tier{{/if}}</span>
-          </div>
-          <p class="usage-note">Using high-fidelity Chirp 3: HD models (1M chars free, then $30/1M).</p>
-          <h4 style="margin-top: 30px;">Estimated Total Cost This Month: {{usage.cost}}</h4>
-          <p class="usage-note">Usage and cost estimates reset on the 1st of each month.</p>
+    <div class="main-layout">
+      <div class="main-column">
+        <div class="add-article-card">
+          <h3>Add New Article</h3>
+          <form id="addArticleForm">
+            <div class="input-group">
+              <input type="url" id="articleUrl" placeholder="https://example.com/article" required>
+              <button type="submit" class="button" id="submitBtn">Convert</button>
+            </div>
+            <div id="progressWrapper" class="progress-wrapper">
+              <div class="progress-bar-bg"><div id="progressBar" class="progress-bar-fill"></div></div>
+              <p id="progressText" class="progress-text">Warming up...</p>
+            </div>
+            <div id="statusMessage" class="status-message"></div>
+          </form>
         </div>
-      </details>
-    </div>
-    {{/if}}
 
-    {{#if carbon}}
-    <div class="carbon-card">
-      <h3>
-        🌱 Carbon Impact
-        <div class="info-icon">
-          i
-          <div class="tooltip">
-            <strong>Methodology:</strong><br>
-            • AI Energy: ~0.5 kWh per hour of audio generated (~10 kWh per 1M chars).<br>
-            • Grid Intensity: ~200g CO₂e/kWh (London).<br>
-            • Smartphone: 1 full charge ≈ 0.015 kWh (15 Wh battery).
-          </div>
-        </div>
-      </h3>
-      <div class="carbon-grid">
-        <div class="carbon-stat">
-          <div class="carbon-value">{{carbon.hours}}</div>
-          <div class="carbon-label">Hours Processed</div>
-          <div class="carbon-divider"></div>
-          <div class="carbon-value">{{carbon.articleCount}}</div>
-          <div class="carbon-label">Articles</div>
-        </div>
-        <div class="carbon-stat">
-          <div class="carbon-value">{{carbon.energy}}</div>
-          <div class="carbon-label">kWh Energy</div>
-          <div class="carbon-divider"></div>
-          <div class="carbon-value">{{carbon.co2}}kg</div>
-          <div class="carbon-label">CO₂e Emitted</div>
-        </div>
-        <div class="carbon-stat" style="justify-content: center;">
-          <div class="carbon-value" style="font-size: 2.5rem; margin-bottom: 5px;">{{carbon.charges}}</div>
-          <div class="carbon-label">Phone Charges</div>
-        </div>
+        <section>
+          <h2>Episodes</h2>
+          {{#if episodes.length}}
+            {{#each episodes}}
+            <div class="episode-card">
+              <div class="episode-info">
+                <h3>{{this.title}}</h3>
+                <p class="date">{{this.pubDate}}</p>
+                <p class="description">{{this.description}}</p>
+                <a href="{{this.link}}" target="_blank" class="article-link">Read Original Article</a>
+              </div>
+              <div class="player-container">
+                <audio controls preload="none">
+                  <source src="{{this.audioPath}}" type="audio/mpeg">
+                  Your browser does not support the audio element.
+                </audio>
+              </div>
+            </div>
+            {{/each}}
+          {{else}}
+            <p>No episodes available yet.</p>
+          {{/if}}
+        </section>
       </div>
-      <p class="carbon-note">
-        Estimates based on Google Cloud region <code>europe-west2</code> (London) carbon intensity and AI inference energy models. 
-      </p>
-    </div>
-    {{/if}}
 
-    <div class="subscription-box">
-      <h3>Subscribe</h3>
-      <code class="feed-url">{{feedUrl}}</code>
-      <a href="pcast://{{feedUrlNoProtocol}}" class="button">Open in Podcast App</a>
-    </div>
-    <section>
-      <h2>Episodes</h2>
-      {{#if episodes.length}}
-        {{#each episodes}}
-        <div class="episode-card">
-          <div class="episode-info">
-            <h3>{{this.title}}</h3>
-            <p class="date">{{this.pubDate}}</p>
-            <p class="description">{{this.description}}</p>
-            <a href="{{this.link}}" target="_blank" class="article-link">Read Original Article</a>
-          </div>
-          <div class="player-container">
-            <audio controls preload="none">
-              <source src="{{this.audioPath}}" type="audio/mpeg">
-              Your browser does not support the audio element.
-            </audio>
-          </div>
+      <aside class="sidebar-column">
+        {{#if usage}}
+        <div class="usage-card">
+          <details>
+            <summary>
+              <h3>Monthly TTS Usage & Cost</h3>
+            </summary>
+            <div class="usage-details">
+              <h4>Chirp 3: HD Voice (Premium)</h4>
+              <div class="progress-bar-container">
+                <div class="progress-bar" style="width: {{usage.percent}}%; background-color: {{usage.color}};"></div>
+              </div>
+              <div class="usage-text">
+                <span>{{usage.used}} / {{usage.limit}} chars</span>
+                <span class="cost-tag">{{#if usage.isOverLimit}}Charges Apply{{else}}Free Tier{{/if}}</span>
+              </div>
+              <p class="usage-note">Using high-fidelity Chirp 3: HD models (1M chars free, then $30/1M).</p>
+              <h4 style="margin-top: 30px;">Estimated Total Cost This Month: {{usage.cost}}</h4>
+              <p class="usage-note">Usage and cost estimates reset on the 1st of each month.</p>
+            </div>
+          </details>
         </div>
-        {{/each}}
-      {{else}}
-        <p>No episodes available yet.</p>
-      {{/if}}
-    </section>
+        {{/if}}
+
+        {{#if carbon}}
+        <div class="carbon-card">
+          <h3>
+            🌱 Carbon Impact
+            <div class="info-icon">
+              i
+              <div class="tooltip">
+                <strong>Methodology:</strong><br>
+                • AI Energy: ~0.5 kWh per hour of audio generated (~10 kWh per 1M chars).<br>
+                • Grid Intensity: ~200g CO₂e/kWh (London).<br>
+                • Smartphone: 1 full charge ≈ 0.015 kWh (15 Wh battery).
+              </div>
+            </div>
+          </h3>
+          <div class="carbon-grid">
+            <div class="carbon-stat">
+              <div class="carbon-value">{{carbon.hours}}</div>
+              <div class="carbon-label">Hours Processed</div>
+              <div class="carbon-divider"></div>
+              <div class="carbon-value">{{carbon.articleCount}}</div>
+              <div class="carbon-label">Articles</div>
+            </div>
+            <div class="carbon-stat">
+              <div class="carbon-value">{{carbon.energy}}</div>
+              <div class="carbon-label">kWh Energy</div>
+              <div class="carbon-divider"></div>
+              <div class="carbon-value">{{carbon.co2}}kg</div>
+              <div class="carbon-label">CO₂e Emitted</div>
+            </div>
+            <div class="carbon-stat" style="justify-content: center;">
+              <div class="carbon-value" style="font-size: 2.5rem; margin-bottom: 5px;">{{carbon.charges}}</div>
+              <div class="carbon-label">Phone Charges</div>
+            </div>
+          </div>
+          <p class="carbon-note">
+            Estimates based on Google Cloud region <code>europe-west2</code> (London) carbon intensity and AI inference energy models. 
+          </p>
+        </div>
+        {{/if}}
+
+        <div class="subscription-box">
+          <details>
+            <summary>
+              <h3>Subscribe to Podcast</h3>
+            </summary>
+            <div class="subscription-content">
+              <div class="feed-url-container">
+                <p>Copy this URL into your favorite podcast app or scan the QR code below.</p>
+                <code class="feed-url">{{feedUrl}}</code>
+              </div>
+              <a href="pcast://{{feedUrlNoProtocol}}" class="button" style="margin-bottom: 25px;">Open in Podcast App</a>
+              <img src="{{qrCodeDataUrl}}" alt="QR Code" class="qr-code">
+              <p class="qr-label">Scan to open on your phone</p>
+            </div>
+          </details>
+        </div>
+      </aside>
+    </div>
     <footer>
       <p>Last updated: {{lastUpdated}}</p>
       <p>Sustainability TSS Podcast | v1.1</p>
