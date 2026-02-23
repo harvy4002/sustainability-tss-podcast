@@ -21,6 +21,25 @@ const CHIRP_FEMALE_VOICES = [
   'en-US-Chirp3-HD-Zephyr'
 ];
 
+const CHIRP_MALE_VOICES = [
+  'en-US-Chirp3-HD-Bellatrix',
+  'en-US-Chirp3-HD-Canopus',
+  'en-US-Chirp3-HD-Castor',
+  'en-US-Chirp3-HD-Enif',
+  'en-US-Chirp3-HD-Fenrir',
+  'en-US-Chirp3-HD-Hadar',
+  'en-US-Chirp3-HD-Helvetios',
+  'en-US-Chirp3-HD-Isonoe',
+  'en-US-Chirp3-HD-Menkar',
+  'en-US-Chirp3-HD-Miram',
+  'en-US-Chirp3-HD-Orion',
+  'en-US-Chirp3-HD-Polaris',
+  'en-US-Chirp3-HD-Rigel',
+  'en-US-Chirp3-HD-Sirius',
+  'en-US-Chirp3-HD-Spica',
+  'en-US-Chirp3-HD-Tarazed'
+];
+
 /**
  * Logs a detailed processing event for future analysis
  * @param {Object} data - Event data (url, title, charCount, voice, etc.)
@@ -136,17 +155,20 @@ function calculateLifetimeArticles(stats) {
 
 /**
  * Determines which voice to use based on current usage
- * Picks a random female Chirp 3: HD voice
+ * Picks a random voice from both male and female Chirp 3: HD pools
  * @returns {Promise<Object>} The voice configuration object to use
  */
 export async function getOptimalVoice() {
-  const randomVoice = CHIRP_FEMALE_VOICES[Math.floor(Math.random() * CHIRP_FEMALE_VOICES.length)];
+  const isMale = Math.random() < 0.5;
+  const pool = isMale ? CHIRP_MALE_VOICES : CHIRP_FEMALE_VOICES;
+  const randomVoice = pool[Math.floor(Math.random() * pool.length)];
+  const gender = isMale ? 'MALE' : 'FEMALE';
   
-  console.log(`Selected random Chirp 3: HD female voice: ${randomVoice}`);
+  console.log(`Selected random Chirp 3: HD ${gender} voice: ${randomVoice}`);
   
   return {
     languageCode: 'en-US',
     name: randomVoice,
-    ssmlGender: 'FEMALE'
+    ssmlGender: gender
   };
 }
